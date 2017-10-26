@@ -1,0 +1,22 @@
+#  !/bin/bash
+
+source /tmp/BigDataConfig
+
+echo "start bigdata-hadoop services"
+
+cd $SOFTWARE_INSTALL_PATH/hadoop-$HADOOP_VERSION
+echo "start hadoop dfs dameon process"
+sbin/start-dfs.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+echo "start yarn resourcemanager process"
+sbin/start-yarn.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+cd -
+
+echo "success startup hadoop"

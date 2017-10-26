@@ -1,0 +1,21 @@
+---
+- name: startup bigdata services
+  hosts: StartUp_Slave 
+  gather_facts: false
+  vars: 
+    tmpworkspace: /tmp
+    workspace: /home/BigData
+    HADOOP_VERSION: 2.7.4
+  tasks:
+    - name: format datanode
+      command: rm -rf {{workspace}}/hadoop-{{HADOOP_VERSION}}/dfs/ {{workspace}}/hadoop-{{HADOOP_VERSION}}/tmp
+
+- name: startup bigdata services
+  hosts: StartUp_Master
+  gather_facts: false
+  vars:
+    tmpworkspace: /tmp
+    workspace: /home/BigData
+  roles:
+    - startupbigdata
+

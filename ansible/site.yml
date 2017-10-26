@@ -1,0 +1,12 @@
+---
+- name: install bigdata on remote hosts
+  hosts: Install_Machines
+  gather_facts: false
+  vars:
+    tmpworkspace: /tmp
+    workspace: /home/BigData
+  roles:
+    - scala
+    - java
+    - hadoop
+    - spark

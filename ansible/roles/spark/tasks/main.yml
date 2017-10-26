@@ -1,0 +1,14 @@
+---
+- name: copy and decompress files to destination host
+  unarchive: src=spark-{{SPARK_VERSION}}-bin-hadoop{{HADOOP_BIG_VERSION}}.tar.gz dest={{workspace}}
+
+#- name: copy script files to remote host
+#  copy: src={{ item }} dest={{tmpworkspace}} owner=BigData mode=777
+#  with_items:
+#    - export_hadoop_env.sh
+
+#- name: export environment varible
+#  shell: {{tmpworkspace}}/export_hadoop_env.sh executable=/bin/bash
+
+#- name: clear tmp resource
+#  command: rm -f {{tmpworkspace}}/export_hadoop_env.sh

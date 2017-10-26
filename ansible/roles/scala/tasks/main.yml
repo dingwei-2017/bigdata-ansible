@@ -1,0 +1,23 @@
+---
+
+- name: copy common script
+  copy: src=../../../scripts/common/BigDataConfig dest={{tmpworkspace}} owner=BigData mode=777
+
+- name: download scala
+  shell: wget -P {{tmpworkspace}} https://downloads.lightbend.com/scala/{{ SCALA_VERSION }}/scala-{{ SCALA_VERSION }}.tgz
+
+- name: unarchive the gz packet
+  unarchive: src={{ tmpworkspace }}/scala-{{ SCALA_VERSION }}.tgz dest={{ workspace }} copy=no
+
+- name: copy script to remote machine
+  copy: src={{ item }} dest={{tmpworkspace}} owner=BigData mode=777
+  with_items:
+    - export_scala_env.sh
+
+- name: export environment varible
+  shell: /tmp/export_scala_env.sh executable=/bin/bash
+
+- name: clear tmp resource
+#  command: rm -f {{tmpworkspace}}/export_scala_env.sh
+  command: "rm -rf {{tmpworkspace}}/export_scala_env.sh {{tmpworkspace}}/scala-{{ SCALA_VERSION }}.tgz*"
+

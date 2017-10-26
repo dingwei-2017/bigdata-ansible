@@ -1,0 +1,9 @@
+---
+- name: stop bigdata services
+  hosts: StartUp_Master 
+  gather_facts: false
+  vars: 
+    tmpworkspace: /tmp
+    workspace: /home/BigData
+  roles:
+    - stopbigdata

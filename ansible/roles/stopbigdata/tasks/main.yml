@@ -1,0 +1,17 @@
+---
+
+- name: copy start up script to destination hosts
+  copy: src={{item}} dest={{tmpworkspace}} owner=BigData mode=777
+  with_items:
+    - stophadoop.sh
+    - stopspark.sh
+
+- name: yml stop hadoop service 
+  shell: /tmp/stophadoop.sh executable=/bin/bash
+
+- name: yml stop spark service
+  shell: /tmp/stopspark.sh executable=/bin/bash
+
+- name: clear tmp resource
+  command: rm -rf {{tmpworkspace}}/stophadoop.sh {{tmpworkspace}}/stopspark.sh
+

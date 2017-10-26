@@ -1,0 +1,26 @@
+---
+- name: copy files to destination host
+  copy: src={{ item }} dest={{tmpworkspace}} owner=BigData mode=777
+  with_items:
+    - export_java_env.sh
+    - java_arm64_install.sh
+    - java_x64_install.sh
+
+- name: download java
+#  shell: uname -m executable=/bin/bash
+  shell: uname -m
+  register: cputype
+- name: print cputype
+  debug: var=cputype
+- name: down java for arm64
+  shell: /tmp/java_arm64_install.sh  executable=/bin/bash
+  when: cputype.stdout == "aarch64"
+- name: down java for x64
+  shell: /tmp/java_x64_install.sh   executable=/bin/bash
+  when: cputype.stdout == "x86_64"
+
+- name: export environment varible
+  shell: /tmp/export_java_env.sh executable=/bin/bash
+
+- name: clear tmp resource
+  command: rm -f {{tmpworkspace}}/export_java_env.sh {{tmpworkspace}}/java_arm64_install.sh {{tmpworkspace}}/java_x64_install.sh
